@@ -9,9 +9,9 @@ Install the plugin on your Grails project
 
 In UrlMappings.groovy file add a named mapping like that:
     
-name image : "/image/$classname/$id/$fieldName"{
-	controller="image"
-}
+    name image : "/image/$classname/$id/$fieldName"{
+    	controller="image"
+    }
     
 This will be the url in wich you can access your images,
 * classname is the domain class in wich you have the image field  
@@ -38,28 +38,30 @@ At this time you can only use 'thumb' and 'image' field name,
 yuo can use only one of them or both.
     
 
-field must be transient to that grails create this field in database.
+fields must be transient to avoid that grails create this field in database.
 
-    static transients = ['image']
+    static transients = ['image' , 'thumb']
 
 
 To save image field on controller
 
-imageService.write(serviceInstance)
+    imageService.write(serviceInstance)
 
 find and save 'image' and 'thumb' fields,
 if you want save only one field for this domain class use
 
-imageService.write(serviceInstance ,'image')
+    imageService.write(serviceInstance ,'image')
 
-imageService.image.width    //standard 480
-imageService.image.height   //standard 360
+You can configure height and width for fields in config.groovy
 
-imageService.thumb.width	//standard 90
-imageService.thumb.height	//standard 70
+    imageService.image.width    //standard 480
+    imageService.image.height   //standard 360
 
+    imageService.thumb.width	//standard 90
+    imageService.thumb.height	//standard 70
+    
 
-These are available tags: 
+These are available gsp tags: 
 
 This tag create html img tag 
     <g:image bean="${doaminInstance}" type="thumb" />
