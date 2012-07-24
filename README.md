@@ -64,7 +64,9 @@ You can configure height and width for fields in config.groovy
 These are available gsp tags: 
 
 This tag create html img tag 
+
     <g:image bean="${doaminInstance}" type="thumb" />
 
 This tag create only link to image
+
     <g:imageLink bean="${domainInstance}" type="thumb" />
