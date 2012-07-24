@@ -1,0 +1,12 @@
+lib/
+scripts/
+src/
+target/
+target-eclipse/
+test/
+.groovy/
+.settings/
+stacktrace.log
+.classpath
+.project
+.link_to_grails_plugin/
