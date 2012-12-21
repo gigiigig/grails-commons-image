@@ -28,39 +28,45 @@ In config.groovy file add this options:
     
 
 ##Use
-
 Create field in domain class: 
 
     byte[] image
     byte[] thumb
     
-At this time you can only use 'thumb' and 'image' field name,
-yuo can use only one of them or both.
-    
+Fileds 'thumb' and 'image' are standard fields, 
+but you can use every field name you want.
 
 fields must be transient to avoid that grails create this field in database.
 
     static transients = ['image' , 'thumb']
+    
+moreover on domain class you can add a Date fields, with name FIELDNAMEDate,
 
+    Date thumbDate
+  	Date imageDate
+  	
+to have upload date saved on your database.
 
 To save image field on controller
 
+    imageService.write(serviceInstance ,'FIELDNAME')
+    
+There is a shortcut wich allows you to save standard image fields 'image' and 'thumb'
+if you used them 
+  
     imageService.write(serviceInstance)
-
-find and save 'image' and 'thumb' fields,
-if you want save only one field for this domain class use
-
-    imageService.write(serviceInstance ,'image')
 
 You can configure height and width for fields in config.groovy
 
     imageService.image.width    //standard 480
     imageService.image.height   //standard 360
 
-    imageService.thumb.width	//standard 90
-    imageService.thumb.height	//standard 70
+    imageService.thumb.width	  //standard 90
+    imageService.thumb.height	  //standard 70
     
-
+    imageService.FIELDNAME.width	//standard 480
+    imageService.FIELDNAME.height	//standard 360
+ 
 These are available gsp tags: 
 
 This tag create html img tag 

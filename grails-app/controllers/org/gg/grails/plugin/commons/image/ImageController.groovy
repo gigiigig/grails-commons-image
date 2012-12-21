@@ -113,11 +113,26 @@ class ImageController {
 				//save it on cache and return it
 				request.getSession().getServletContext().getRealPath("/")
 
-				if(params.fieldName == "image"){
-					image = getCroppedImage(image)
-				}else{
-					image = getCroppedThumb(image)
+				def height = IMAGE_HEIGHT
+				def width = IMAGE_WIDTH
+
+				//this is only for backward compatibility
+				if(params.fieldName == "thumb"){
+					height = THUMB_HEIGHT
+					width = THUMB_WIDTH
+				}else {
+				
+					def fullFieldName = grailsApplication.config.imageService."$params.fieldName"
+
+					if(fullFieldName.height)
+						height = fullFieldName.height
+					if(fullFieldName.width)
+						width = fullFieldName.width
+
 				}
+
+				image = scaleCropImage(image, width, height)
+
 
 				File imageFile = new File(imageCache+imageName)
 
@@ -131,31 +146,31 @@ class ImageController {
 		}
 	}
 
-	private byte[] getCroppedImage(image){
-		
-		def height = IMAGE_HEIGHT
-		def width = IMAGE_WIDTH
-
-		if(grailsApplication.config.imageService.image.height)
-			height = grailsApplication.config.imageService.image.height
-		if(grailsApplication.config.imageService.image.width)
-			width = grailsApplication.config.imageService.image.width
-
-		return scaleCropImage(image, width, height)
-	}
-
-	private byte[] getCroppedThumb(thumb){
-		
-		def height = THUMB_HEIGHT
-		def width = THUMB_WIDTH
-
-		if(grailsApplication.config.imageService.thumb.height)
-			height = grailsApplication.config.imageService.thumb.height
-		if(grailsApplication.config.imageService.thumb.width)
-			width = grailsApplication.config.imageService.thumb.width
-			
-		return scaleCropImage(thumb, width, height)
-	}
+	//	private byte[] getCroppedImage(image){
+	//
+	//		def height = IMAGE_HEIGHT
+	//		def width = IMAGE_WIDTH
+	//
+	//		if(grailsApplication.config.imageService.image.height)
+	//			height = grailsApplication.config.imageService.image.height
+	//		if(grailsApplication.config.imageService.image.width)
+	//			width = grailsApplication.config.imageService.image.width
+	//
+	//		return scaleCropImage(image, width, height)
+	//	}
+	//
+	//	private byte[] getCroppedThumb(thumb){
+	//
+	//		def height = THUMB_HEIGHT
+	//		def width = THUMB_WIDTH
+	//
+	//		if(grailsApplication.config.imageService.thumb.height)
+	//			height = grailsApplication.config.imageService.thumb.height
+	//		if(grailsApplication.config.imageService.thumb.width)
+	//			width = grailsApplication.config.imageService.thumb.width
+	//
+	//		return scaleCropImage(thumb, width, height)
+	//	}
 
 	private byte[] scaleCropImage(image,width,height){
 

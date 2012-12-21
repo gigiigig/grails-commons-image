@@ -11,6 +11,9 @@ class ImageService {
 
 
 	private static final log = LogFactory.getLog(this)
+	
+	static transactional = false
+	
 	def grailsApplication
 
 
@@ -90,10 +93,13 @@ class ImageService {
 				if(toDelete.exists())
 					toDelete.delete()
 
+				//if domain class contains a a date field for this field,
+				//set this to current date, to have upload time  
+			    if(instance."${fileType}Date")
+					instance."${fileType}Date" = new Date()
+				
 				//update image date
-				instance."${fileType}Date" = new Date()
 				instance.save(flush: true)
-
 
 			}catch (Exception e) {
 				log.error "write [" + e + "]"
