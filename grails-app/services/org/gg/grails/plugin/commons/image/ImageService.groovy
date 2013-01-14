@@ -33,6 +33,9 @@ class ImageService {
 	 * Write image uploaded in hard disk
 	 * in the folder in config value
 	 * image.upload.folder
+	 * Image is saved with type and if of Domain class,
+	 * so instance should have the id alredy saved,
+	 * otherwise image will not be saved
 	 *
 	 * @param instance
 	 * @param fileType
@@ -53,7 +56,14 @@ class ImageService {
 				log.warn "[" + e + "]"
 			}
 		}
-
+		
+		//if domain class instance not have id, image 
+		//can't be saved 
+		if(!instance.id){
+			log.warn "domain class should have id value to save image"
+			return
+		}
+			
 		if(fileContent && fileContent.size() > 0){
 
 			//log.debug "write ${fileType}[" + instance."${fileType}" + "]"
