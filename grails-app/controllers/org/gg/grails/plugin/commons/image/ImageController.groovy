@@ -120,16 +120,14 @@ class ImageController {
 				if(params.fieldName == "thumb"){
 					height = THUMB_HEIGHT
 					width = THUMB_WIDTH
-				}else {
-				
-					def fullFieldName = grailsApplication.config.imageService."$params.fieldName"
-
-					if(fullFieldName.height)
-						height = fullFieldName.height
-					if(fullFieldName.width)
-						width = fullFieldName.width
-
 				}
+		
+				def fullFieldName = grailsApplication.config.imageService."$params.fieldName"
+
+				if(fullFieldName.height)
+					height = fullFieldName.height
+				if(fullFieldName.width)
+					width = fullFieldName.width
 
 				image = scaleCropImage(image, width, height)
 

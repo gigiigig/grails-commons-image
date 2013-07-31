@@ -109,8 +109,8 @@ class ImageService {
 					instance."${fileType}Date" = new Date()
 				
 				//update image date
-				instance.save(flush: true)
-
+				//instance.save(flush: true)
+				
 			}catch (Exception e) {
 				log.error "write [" + e + "]"
 			}
